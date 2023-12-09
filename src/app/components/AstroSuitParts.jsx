@@ -8,19 +8,15 @@ import {
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 import { SourceMinter, AstroSuitPartsNFT } from "../../artifacts/artifacts";
 import Card from "./Card";
-import { Sevillana } from "next/font/google";
-const imageUris = [
-  "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/gloves.png",
-  "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/helmet.png",
-  "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/suit.png",
-  "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/boots.png",
-];
+import Loader from "./Loader";
 
 const AstroSuitParts = () => {
   const [astroSuitPartsNFTContract, setAstroSuitPartsNFTContract] =
     useState(null);
   const [balances, setBalances] = useState([]);
   const [chain, setChain] = useState(0);
+  const [txnInProgress, setTxnInProgress] = useState(false);
+
   // const [metadatasAndBalances, setMetadatas] = useState({});
 
   const { open } = useWeb3Modal();
@@ -83,6 +79,7 @@ const AstroSuitParts = () => {
 
   const mintAstroSuitPartsNFT = async (selector, address) => {
     try {
+      setTxnInProgress(true);
       if (selector === 0) {
         const tx = await astroSuitPartsNFTContract.mintGloves(address);
         await tx.wait();
@@ -97,11 +94,14 @@ const AstroSuitParts = () => {
         await tx.wait();
       } else {
         console.log("Invalid tokenID");
+        setTxnInProgress(false);
       }
     } catch (error) {
+      setTxnInProgress(false);
       console.log(error);
     } finally {
       await getAstroSuitBalancesAndMetadata(address);
+      setTxnInProgress(false);
     }
   };
 
@@ -121,6 +121,7 @@ const AstroSuitParts = () => {
 
   return (
     <div>
+      {txnInProgress && <Loader />}
       <h2 className="text-4xl font-bold text-white mb-4">AstroSuitParts NFT</h2>
       {chain === 11155111 ? (
         <div className="p-4 flex flex-row">
@@ -133,6 +134,7 @@ const AstroSuitParts = () => {
             //   width="270px"
             // />
             <Card
+              key={idx}
               _id={idx}
               name={item.name}
               photo={item.image}

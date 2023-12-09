@@ -5,6 +5,8 @@ import AboutSection from "./components/AboutSection";
 import Footer from "./components/Footer";
 import AchievementsSection from "./components/AchievementsSection";
 import AstroSuitParts from "./components/AstroSuitParts";
+import MergeArea from "./components/MergeArea";
+import AstroSuitFull from "./components/AstroSuitFull";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
         <HeroSection /> <AboutSection />
         <AchievementsSection />
         <AstroSuitParts />
+        <MergeArea />
+        <AstroSuitFull />
       </div>
       <Footer />
     </main>
