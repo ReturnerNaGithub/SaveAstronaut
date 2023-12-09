@@ -299,7 +299,7 @@ export const SourceMinter = {
       type: "receive",
     },
   ],
-  address: "0xd65195c3C1DefBa2c83a3370F603d5c9115aF335",
+  address: "0xDe8a0F5dcE0fA1b1a463Aacab3Cb66D482039F46",
 };
 
 export const AstroSuitPartsNFT = {
@@ -1055,7 +1055,7 @@ export const AstroSuitPartsNFT = {
       type: "function",
     },
   ],
-  address: "0x1Dd59aD68b6e229DBf13A76550B7a5c14F193f4C",
+  address: "0x9744Ee7886d85eAAa4c8C802eeA9C048936AB73c",
 };
 
 export const AstroSuitFullNFT = {

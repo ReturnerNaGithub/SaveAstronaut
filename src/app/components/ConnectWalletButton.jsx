@@ -13,6 +13,9 @@ const ConnectWalletButton = () => {
       setUserAddress(address);
     }
   }, [isConnected]);
+  useEffect(() => {
+    setUserAddress(address);
+  }, [address]);
   const { open } = useWeb3Modal();
   return (
     <>
