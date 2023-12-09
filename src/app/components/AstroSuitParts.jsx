@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import {
   useWeb3ModalProvider,
   useWeb3ModalAccount,
+  useWeb3Modal,
 } from "@web3modal/ethers/react";
 import { BrowserProvider, Contract, formatUnits } from "ethers";
 import { SourceMinter, AstroSuitPartsNFT } from "../../artifacts/artifacts";
+import Card from "./Card";
+import { Sevillana } from "next/font/google";
 const imageUris = [
   "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/gloves.png",
   "https://gateway.pinata.cloud/ipfs/QmdTDsjaih5GmcZteJKsXk7nxhhrD9GAnvyUWzggvufzzu/helmet.png",
@@ -17,10 +20,16 @@ const AstroSuitParts = () => {
   const [astroSuitPartsNFTContract, setAstroSuitPartsNFTContract] =
     useState(null);
   const [balances, setBalances] = useState([]);
+  const [chain, setChain] = useState(0);
   // const [metadatasAndBalances, setMetadatas] = useState({});
 
+  const { open } = useWeb3Modal();
   const { walletProvider } = useWeb3ModalProvider();
-  const { isConnected, address } = useWeb3ModalAccount();
+  const { isConnected, address, chainId } = useWeb3ModalAccount();
+
+  useEffect(() => {
+    setChain(chainId);
+  }, [chainId]);
 
   const getAstroSuitBalancesAndMetadata = async (address) => {
     const metadataAndBalancesArray = [];
@@ -40,6 +49,7 @@ const AstroSuitParts = () => {
         metadataAndBalancesArray.push({
           balance: fetchedBalances[i],
           image: (await res).image,
+          name: (await res).name,
         });
       }
 
@@ -71,12 +81,36 @@ const AstroSuitParts = () => {
     }
   };
 
+  const mintAstroSuitPartsNFT = async (selector, address) => {
+    try {
+      if (selector === 0) {
+        const tx = await astroSuitPartsNFTContract.mintGloves(address);
+        await tx.wait();
+      } else if (selector === 1) {
+        const tx = await astroSuitPartsNFTContract.mintHelmet(address);
+        await tx.wait();
+      } else if (selector === 2) {
+        const tx = await astroSuitPartsNFTContract.mintSuit(address);
+        await tx.wait();
+      } else if (selector === 3) {
+        const tx = await astroSuitPartsNFTContract.mintBoots(address);
+        await tx.wait();
+      } else {
+        console.log("Invalid tokenID");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await getAstroSuitBalancesAndMetadata(address);
+    }
+  };
+
   useEffect(() => {
-    if (walletProvider && isConnected) {
+    if (walletProvider && isConnected && chain === 11155111) {
       getAstroSuitPartsNFTContract(walletProvider);
     }
     console.log(walletProvider, isConnected);
-  }, []);
+  }, [walletProvider, chain]);
 
   useEffect(() => {
     if (address && astroSuitPartsNFTContract && isConnected) {
@@ -86,18 +120,37 @@ const AstroSuitParts = () => {
   }, [astroSuitPartsNFTContract]);
 
   return (
-    <div className="p-4 flex flex-row">
-      {balances.map(
-        (item, idx) =>
-          item.balance > 0 && (
-            <img
-              className="mx-4"
-              key={idx}
-              src={item.image}
-              alt=""
-              width="270px"
+    <div>
+      <h2 className="text-4xl font-bold text-white mb-4">AstroSuitParts NFT</h2>
+      {chain === 11155111 ? (
+        <div className="p-4 flex flex-row">
+          {balances.map((item, idx) => (
+            // <img
+            //   className={item.balance > 0 ? `mx-4 ` : `mx-4 brightness-50`}
+            //   key={idx}
+            //   src={item.image}
+            //   alt=""
+            //   width="270px"
+            // />
+            <Card
+              _id={idx}
+              name={item.name}
+              photo={item.image}
+              balance={item.balance}
+              mint={mintAstroSuitPartsNFT}
+              address={address}
             />
-          )
+          ))}
+        </div>
+      ) : (
+        <button
+          className="text-white bg-emerald-600 font-medium rounded-md text-md w-full sm:w-auto px-3 py-1.5 text-center my-12"
+          onClick={() => {
+            open({ view: "Networks" });
+          }}
+        >
+          Switch to Sepolia Testnet to view content
+        </button>
       )}
     </div>
   );
