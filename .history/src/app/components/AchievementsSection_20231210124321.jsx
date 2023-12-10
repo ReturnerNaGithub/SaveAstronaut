@@ -22,11 +22,11 @@ const achievementsList = [
   },
   {
     metric: "Awards",
-    value: "1",
+    value: "7",
   },
   {
     metric: "Years",
-    value: "2",
+    value: "5",
   },
 ];
 
