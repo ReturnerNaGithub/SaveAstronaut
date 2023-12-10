@@ -1,8 +1,4 @@
-https://devpost.com/software/save-patrick-from-oblivion?ref_content=user-portfolio&ref_feature=in_progress
-.
-
-
-Check out our project.
+Check out our project: https://devpost.com/software/save-patrick-from-oblivion?ref_content=user-portfolio&ref_feature=in_progress
 
 Four using APP you need connect to your wallet.
 Testnet data: const sepolia = {
