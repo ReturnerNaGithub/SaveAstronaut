@@ -28,3 +28,7 @@ const mumbai = {
   explorerUrl: "https://mumbai.polygonscan.com/",
   rpcUrl: "https://rpc-mumbai.maticvigil.com/",
 };
+
+link of the game:
+
+https://1drv.ms/f/s!AuolOG7htGE3lU-r3ggXSAGozEKz?e=gD3b0c
