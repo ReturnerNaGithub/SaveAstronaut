@@ -1,0 +1,25 @@
+import Image from "next/image";
+import HeroSection from "./components/HeroSection";
+import Navbar from "./components/Navbar";
+import AboutSection from "./components/AboutSection";
+import Footer from "./components/Footer";
+import AchievementsSection from "./components/AchievementsSection";
+import AstroSuitParts from "./components/AstroSuitParts";
+import MergeArea from "./components/MergeArea";
+import AstroSuitFull from "./components/AstroSuitFull";
+import Head from "next/head";
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col bg-[#121212]">
+      <Navbar />
+      <div className="container mt-24 mx-auto px-12 py-4">
+        <HeroSection /> <AboutSection />
+        <AstroSuitParts />
+        <MergeArea />
+        <AstroSuitFull />
+      </div>
+      <Footer />
+    </main>
+  );
+}
