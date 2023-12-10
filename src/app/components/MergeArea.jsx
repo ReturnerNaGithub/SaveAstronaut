@@ -5,13 +5,7 @@ import {
   useWeb3ModalAccount,
   useWeb3Modal,
 } from "@web3modal/ethers/react";
-import {
-  BrowserProvider,
-  Contract,
-  formatUnits,
-  parseEther,
-  BigNumberish,
-} from "ethers";
+import { BrowserProvider, Contract, formatUnits, parseEther } from "ethers";
 import {
   SourceMinter,
   Link,
@@ -21,6 +15,7 @@ import FormField from "./FormField";
 import Loader from "./Loader";
 import ReactModal from "react-modal";
 import { IoReloadOutline } from "react-icons/io5";
+import { FiExternalLink } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -701,12 +696,13 @@ const MergeArea = () => {
                 merges.map((item, idx) => (
                   <li>
                     <a
-                      className="ml-4 text-[14px] text-violet-600"
+                      className="ml-4 text-[14px] text-violet-600 flex flex-row"
                       key={idx}
                       href={`https://ccip.chain.link/msg/${item}`}
                       target="_blank"
                     >
                       {item}
+                      <FiExternalLink className="ml-2 mt-1" />
                     </a>
                   </li>
                 ))
