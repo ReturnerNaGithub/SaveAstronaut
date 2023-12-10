@@ -7,6 +7,7 @@ import AchievementsSection from "./components/AchievementsSection";
 import AstroSuitParts from "./components/AstroSuitParts";
 import MergeArea from "./components/MergeArea";
 import AstroSuitFull from "./components/AstroSuitFull";
+import Head from "next/head";
 
 export default function Home() {
   return (

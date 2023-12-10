@@ -166,7 +166,7 @@ const MergeArea = () => {
           .connect(signer)
           .receiveLink(parseEther(linkAmt.toString()));
         await tx2.wait();
-        toast.success(`Successfully funded ${linkAmt} ETH`, {
+        toast.success(`Successfully funded ${linkAmt} LINK`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -409,7 +409,10 @@ const MergeArea = () => {
         setMessageId(messageId);
         console.log(res);
         toast.success(
-          `Merge Initiated Successfully (messageId: ${messageId})`,
+          `Merge Initiated Successfully (messageId: ${messageId.substring(
+            0,
+            11
+          )}...)`,
           {
             position: "top-right",
             autoClose: 5000,
@@ -423,19 +426,16 @@ const MergeArea = () => {
         );
         setDisplayModal(true);
       } else {
-        toast.warn(
-          `You don't have enough Native Deposits to perform a Merge.`,
-          {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          }
-        );
+        toast.warn(`You don't have enough LINK Deposits to perform a Merge.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
@@ -457,7 +457,7 @@ const MergeArea = () => {
     } finally {
       await getSourceMinterBalances(address);
       await getMergeFeeNative();
-      await getMerges();
+      await getMerges(address);
       //   await getAstroSuitBalancesAndMetadata(address);
       setTxnInProgress(false);
     }
@@ -485,7 +485,10 @@ const MergeArea = () => {
         setMessageId(messageId);
         console.log(res);
         toast.success(
-          `Merge Initiated Successfully (messageId: ${messageId})`,
+          `Merge Initiated Successfully (messageId: ${messageId?.substring(
+            0,
+            11
+          )}...)`,
           {
             position: "top-right",
             autoClose: 5000,
@@ -531,7 +534,7 @@ const MergeArea = () => {
       await getSourceMinterBalances(address);
       await getMergeFeeNative();
       //   await getAstroSuitBalancesAndMetadata(address);
-      await getMerges();
+      await getMerges(address);
       setTxnInProgress(false);
     }
   };
