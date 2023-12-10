@@ -642,7 +642,7 @@ const MergeArea = () => {
             </p>
             <div className="flex flex-row text-white 
             ">
-              <p className="text-[22px]">
+              <p className="text-[12px]">
                 (
                 {(mergeFeeNative > 0 ? nativeBal / mergeFeeNative : 0).toFixed(
                   2
@@ -652,7 +652,7 @@ const MergeArea = () => {
               <button
                 type="button"
                 onClick={withdrawNative}
-                className="text-white bg-red-700 font-medium rounded-full text-[22px] ml-4 px-1.5 py-0.75 "
+                className="text-white bg-pink-700 font-medium rounded-sm text-[22px] ml-4 px-1.5 py-0.75 "
               >
                 Withdraw Native
               </button>
@@ -677,7 +677,7 @@ const MergeArea = () => {
             </p>
             <button
               type="button"
-              className="text-white bg-red-700 font-medium rounded-full text-[22px] ml-4 px-1.5 py-0.75"
+              className="text-white bg-pink-700 font-medium rounded-sm text-[22px] ml-4 px-1.5 py-0.75"
               onClick={withdrawLink}
             >
               Withdraw LINK

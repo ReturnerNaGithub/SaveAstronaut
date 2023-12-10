@@ -41,7 +41,7 @@ const HeroSection = () => {
             />
           </h1>
           <p className="text-[#ADB7BE] text-base sm:text-lg mb-6 lg:text-xl">
-          It is a Chainlink Hackathon Game where you need to acquire four NFTs using CCIP.
+          It is a Chainlink Hackathon Game where you need to acquire four NFTs using CCIP for endpoint.
           </p>
           <div>
             <Link
@@ -69,7 +69,7 @@ const HeroSection = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.5 }}
           className="col-span-4 place-self-center mt-4 lg:mt-0"
         >
           <div

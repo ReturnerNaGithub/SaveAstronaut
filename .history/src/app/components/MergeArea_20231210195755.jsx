@@ -677,7 +677,7 @@ const MergeArea = () => {
             </p>
             <button
               type="button"
-              className="text-white bg-red-700 font-medium rounded-full text-[22px] ml-4 px-1.5 py-0.75"
+              className="text-white bg-red-700 font-medium rounded-sm text-[22px] ml-4 px-1.5 py-0.75"
               onClick={withdrawLink}
             >
               Withdraw LINK

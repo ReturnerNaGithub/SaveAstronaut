@@ -634,15 +634,14 @@ const MergeArea = () => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="white"
+            theme="dark"
           />
           <div>
-            <p className="text-xl text-white  ">
+            <p className="text-xl">
               Native Deposits: {(nativeBal / 10 ** 18).toFixed(3)} ETH{" "}
             </p>
-            <div className="flex flex-row text-white 
-            ">
-              <p className="text-[22px]">
+            <div className="flex flex-row">
+              <p className="text-[12px]">
                 (
                 {(mergeFeeNative > 0 ? nativeBal / mergeFeeNative : 0).toFixed(
                   2
@@ -652,7 +651,7 @@ const MergeArea = () => {
               <button
                 type="button"
                 onClick={withdrawNative}
-                className="text-white bg-red-700 font-medium rounded-full text-[22px] ml-4 px-1.5 py-0.75 "
+                className="text-white bg-blue-400 font-medium rounded-sm text-[12px] ml-4 px-1.5 py-0.75 text-center"
               >
                 Withdraw Native
               </button>
@@ -667,17 +666,17 @@ const MergeArea = () => {
           </div>
           <br />
           <br />
-          <p className="text-xl text-white ">
+          <p className="text-xl">
             Link Deposits: {(linkBal / 10 ** 18).toFixed(3)} LINK
           </p>
-          <div className="flex fix-row text-white">
-            <p className="text-[22px] text-white">
+          <div className="flex flex-row">
+            <p className="text-[12px]">
               ({(mergeFeeLink > 0 ? linkBal / mergeFeeLink : 0).toFixed(2)}{" "}
               Merges possible)
             </p>
             <button
               type="button"
-              className="text-white bg-red-700 font-medium rounded-full text-[22px] ml-4 px-1.5 py-0.75"
+              className="text-white bg-red-400 font-medium rounded-sm text-[12px] ml-4 px-1.5 py-0.75 text-center"
               onClick={withdrawLink}
             >
               Withdraw LINK
