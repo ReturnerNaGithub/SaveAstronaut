@@ -9,6 +9,9 @@ import { BrowserProvider, Contract, formatUnits } from "ethers";
 import { SourceMinter, AstroSuitPartsNFT } from "../../artifacts/artifacts";
 import Card from "./Card";
 import Loader from "./Loader";
+import { IoReloadOutline } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AstroSuitParts = () => {
   const [astroSuitPartsNFTContract, setAstroSuitPartsNFTContract] =
@@ -51,6 +54,7 @@ const AstroSuitParts = () => {
 
       // console.log(metadataAndBalancesArray);
     } catch (error) {
+      NotificationManager.error(error.toString(), "Error", 3000);
       console.log(error);
     } finally {
       console.log(metadataAndBalancesArray);
@@ -79,26 +83,92 @@ const AstroSuitParts = () => {
 
   const mintAstroSuitPartsNFT = async (selector, address) => {
     try {
-      setTxnInProgress(true);
       if (selector === 0) {
         const tx = await astroSuitPartsNFTContract.mintGloves(address);
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success("Mint successful!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else if (selector === 1) {
         const tx = await astroSuitPartsNFTContract.mintHelmet(address);
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success("Mint successful!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else if (selector === 2) {
         const tx = await astroSuitPartsNFTContract.mintSuit(address);
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success("Mint successful!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else if (selector === 3) {
         const tx = await astroSuitPartsNFTContract.mintBoots(address);
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success("Mint successful!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
         console.log("Invalid tokenID");
+        toast.warn("Invalid tokenID...", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
       }
     } catch (error) {
       setTxnInProgress(false);
-      console.log(error);
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      console.log();
     } finally {
       await getAstroSuitBalancesAndMetadata(address);
       setTxnInProgress(false);
@@ -119,12 +189,39 @@ const AstroSuitParts = () => {
     }
   }, [astroSuitPartsNFTContract]);
 
+  const reload = async (address) => {
+    await getAstroSuitBalancesAndMetadata(address);
+  };
+
   return (
     <div>
       {txnInProgress && <Loader />}
-      <h2 className="text-4xl font-bold text-white mb-4">AstroSuitParts NFT</h2>
+      <h2 className="text-4xl font-bold text-white mb-4 flex flex-row">
+        AstroSuitParts NFT
+        <button
+          className="ml-5"
+          onClick={() => {
+            reload(address);
+          }}
+        >
+          <IoReloadOutline />
+        </button>
+      </h2>
+
       {chain === 11155111 ? (
         <div className="p-4 flex flex-row">
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           {balances.map((item, idx) => (
             // <img
             //   className={item.balance > 0 ? `mx-4 ` : `mx-4 brightness-50`}

@@ -18,9 +18,11 @@ import {
   DestinationMinter,
 } from "../../artifacts/artifacts";
 import FormField from "./FormField";
-// import {  } from "./AstroSuitParts";
 import Loader from "./Loader";
 import ReactModal from "react-modal";
+import { IoReloadOutline } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MergeArea = () => {
   const [sourceMinterContract, setSourceMinterContract] = useState(null);
@@ -66,6 +68,9 @@ const MergeArea = () => {
       setSourceMinterContract(sourceMinter);
       // return astroSuitPartsNFT;
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"));
       console.log(error);
     }
   };
@@ -80,6 +85,9 @@ const MergeArea = () => {
       setLinkBal(Number(linkBalance));
       setNativeBal(Number(nativeBalance));
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"));
       console.log(error);
     } finally {
       //   console.log(fetchedBalances);
@@ -92,18 +100,50 @@ const MergeArea = () => {
       if (nativeAmt > 0) {
         const provider = new BrowserProvider(walletProvider);
         const signer = await provider.getSigner();
-        setTxnInProgress(true);
         const tx = await signer.sendTransaction({
           to: sourceMinterContract.target,
           value: parseEther(nativeAmt.toString()),
         });
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success(`Successfully funded ${nativeAmt} ETH`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
+        toast.warn("Please enter a non-zero value", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
     } catch (error) {
       console.log(error);
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setTxnInProgress(false);
     } finally {
       await getSourceMinterBalances(address);
@@ -116,8 +156,8 @@ const MergeArea = () => {
       if (linkAmt > 0) {
         const provider = new BrowserProvider(walletProvider);
         const signer = await provider.getSigner();
-        setTxnInProgress(true);
         const linkContract = new Contract(Link.address, Link.abi, signer);
+        setTxnInProgress(true);
         const tx1 = await linkContract
           .connect(signer)
           .approve(sourceMinterContract.target, parseEther(linkAmt.toString()));
@@ -126,12 +166,44 @@ const MergeArea = () => {
           .connect(signer)
           .receiveLink(parseEther(linkAmt.toString()));
         await tx2.wait();
+        toast.success(`Successfully funded ${linkAmt} ETH`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         // const tx1 = await tx.wait();
       } else {
+        toast.warn("Please enter a non-zero value", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setTxnInProgress(false);
       console.log(error);
     } finally {
@@ -152,6 +224,9 @@ const MergeArea = () => {
 
       setMergeFeeNative(Number(fetchedMergeFee));
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.joIn(":"));
       console.log(error);
     } finally {
       //   console.log(fetchedBalances);
@@ -171,6 +246,9 @@ const MergeArea = () => {
 
       setMergeFeeLink(Number(fetchedMergeFee));
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"));
       console.log(error);
     } finally {
       //   console.log(fetchedBalances);
@@ -205,16 +283,48 @@ const MergeArea = () => {
   const withdrawLink = async () => {
     try {
       if (linkBal > 0) {
-        setTxnInProgress(true);
         const provider = new BrowserProvider(walletProvider);
         const signer = await provider.getSigner();
         const tx = await sourceMinterContract.connect(signer).withdrawLink();
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success(`Successfully withdrawn LINK Deposits`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
+        toast.warn(`You don't have any LINK Deposits`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.log(error);
       setTxnInProgress(false);
     } finally {
@@ -226,17 +336,49 @@ const MergeArea = () => {
 
   const withdrawNative = async () => {
     try {
-      setTxnInProgress(true);
       if (nativeBal > 0) {
         const provider = new BrowserProvider(walletProvider);
         const signer = await provider.getSigner();
         const tx = await sourceMinterContract.connect(signer).withdrawNative();
+        setTxnInProgress(true);
         await tx.wait();
+        toast.success(`Successfully withdrawn Native Deposits`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
+        toast.warn(`You don't have any Native Deposits`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.log(error);
       setTxnInProgress(false);
     } finally {
@@ -258,19 +400,58 @@ const MergeArea = () => {
           0
         );
       if (possible) {
-        setTxnInProgress(true);
         const tx = await sourceMinterContract
           .connect(signer)
           .merge("12532609583862916517", DestinationMinter.address, 0);
+        setTxnInProgress(true);
         const res = await tx.wait();
         const messageId = res.logs[4].data;
         setMessageId(messageId);
         console.log(res);
+        toast.success(
+          `Merge Initiated Successfully (messageId: ${messageId})`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+        setDisplayModal(true);
       } else {
+        toast.warn(
+          `You don't have enough Native Deposits to perform a Merge.`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
         setTxnInProgress(false);
         return;
       }
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setTxnInProgress(false);
       console.log(error);
     } finally {
@@ -279,7 +460,6 @@ const MergeArea = () => {
       await getMerges();
       //   await getAstroSuitBalancesAndMetadata(address);
       setTxnInProgress(false);
-      setDisplayModal(true);
     }
   };
 
@@ -295,20 +475,56 @@ const MergeArea = () => {
           1
         );
       if (possible) {
-        setTxnInProgress(true);
         const tx = await sourceMinterContract
           .connect(signer)
           .merge("12532609583862916517", DestinationMinter.address, 1);
+        setTxnInProgress(true);
         await tx.wait();
         const res = await tx.wait();
         const messageId = res.logs[4].data;
         setMessageId(messageId);
         console.log(res);
+        toast.success(
+          `Merge Initiated Successfully (messageId: ${messageId})`,
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+        setDisplayModal(true);
       } else {
         setTxnInProgress(false);
+        toast.warn(`You don't have enough LINK Deposits to perform a Merge.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return;
       }
     } catch (error) {
+      const errArr = error.info.error.message.split(":");
+      errArr.shift();
+      toast.error(errArr.join(":"), {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setTxnInProgress(false);
       console.log(error);
     } finally {
@@ -317,7 +533,6 @@ const MergeArea = () => {
       //   await getAstroSuitBalancesAndMetadata(address);
       await getMerges();
       setTxnInProgress(false);
-      setDisplayModal(true);
     }
   };
 
@@ -328,6 +543,9 @@ const MergeArea = () => {
       setMerges((merges) => [...fetchedMerges]);
     } catch (error) {
       console.log(error);
+      const errArr = error?.info?.error?.message.split(":");
+      errArr?.shift();
+      toast.error(errArr?.join(":"));
     } finally {
     }
   };
@@ -337,6 +555,13 @@ const MergeArea = () => {
       getMerges(address);
     }
   }, [sourceMinterContract]);
+
+  const reload = async (address) => {
+    await getSourceMinterBalances(address);
+    await getMergeFeeLink();
+    await getMergeFeeNative();
+    await getMerges(address);
+  };
 
   //   useEffect(() => {
   //     console.log(mergeFeeLink > 0 ? nativeBal / mergeFeeNative : 0);
@@ -388,9 +613,31 @@ const MergeArea = () => {
         </ReactModal>
       )}
 
-      <h2 className="text-4xl font-bold text-white mt-20 mb-7">Merging Area</h2>
+      <h2 className="text-4xl font-bold text-white mt-20 mb-7">
+        Merging Area
+        <button
+          className="ml-5"
+          onClick={() => {
+            reload(address);
+          }}
+        >
+          <IoReloadOutline />
+        </button>
+      </h2>
       {chain === 11155111 ? (
         <div className="p-7 flex flex-col">
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
           <div>
             <p className="text-xl">
               Native Deposits: {(nativeBal / 10 ** 18).toFixed(3)} ETH{" "}
