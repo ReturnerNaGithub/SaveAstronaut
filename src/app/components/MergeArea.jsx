@@ -5,13 +5,7 @@ import {
   useWeb3ModalAccount,
   useWeb3Modal,
 } from "@web3modal/ethers/react";
-import {
-  BrowserProvider,
-  Contract,
-  formatUnits,
-  parseEther,
-  BigNumberish,
-} from "ethers";
+import { BrowserProvider, Contract, formatUnits, parseEther } from "ethers";
 import {
   SourceMinter,
   Link,
@@ -21,6 +15,7 @@ import FormField from "./FormField";
 import Loader from "./Loader";
 import ReactModal from "react-modal";
 import { IoReloadOutline } from "react-icons/io5";
+import { FiExternalLink } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -166,7 +161,7 @@ const MergeArea = () => {
           .connect(signer)
           .receiveLink(parseEther(linkAmt.toString()));
         await tx2.wait();
-        toast.success(`Successfully funded ${linkAmt} ETH`, {
+        toast.success(`Successfully funded ${linkAmt} LINK`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -409,7 +404,10 @@ const MergeArea = () => {
         setMessageId(messageId);
         console.log(res);
         toast.success(
-          `Merge Initiated Successfully (messageId: ${messageId})`,
+          `Merge Initiated Successfully (messageId: ${messageId.substring(
+            0,
+            11
+          )}...)`,
           {
             position: "top-right",
             autoClose: 5000,
@@ -423,19 +421,16 @@ const MergeArea = () => {
         );
         setDisplayModal(true);
       } else {
-        toast.warn(
-          `You don't have enough Native Deposits to perform a Merge.`,
-          {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          }
-        );
+        toast.warn(`You don't have enough LINK Deposits to perform a Merge.`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setTxnInProgress(false);
         return;
       }
@@ -457,7 +452,7 @@ const MergeArea = () => {
     } finally {
       await getSourceMinterBalances(address);
       await getMergeFeeNative();
-      await getMerges();
+      await getMerges(address);
       //   await getAstroSuitBalancesAndMetadata(address);
       setTxnInProgress(false);
     }
@@ -485,7 +480,10 @@ const MergeArea = () => {
         setMessageId(messageId);
         console.log(res);
         toast.success(
-          `Merge Initiated Successfully (messageId: ${messageId})`,
+          `Merge Initiated Successfully (messageId: ${messageId?.substring(
+            0,
+            11
+          )}...)`,
           {
             position: "top-right",
             autoClose: 5000,
@@ -531,7 +529,7 @@ const MergeArea = () => {
       await getSourceMinterBalances(address);
       await getMergeFeeNative();
       //   await getAstroSuitBalancesAndMetadata(address);
-      await getMerges();
+      await getMerges(address);
       setTxnInProgress(false);
     }
   };
@@ -698,12 +696,13 @@ const MergeArea = () => {
                 merges.map((item, idx) => (
                   <li>
                     <a
-                      className="ml-4 text-[14px] text-violet-600"
+                      className="ml-4 text-[14px] text-violet-600 flex flex-row"
                       key={idx}
                       href={`https://ccip.chain.link/msg/${item}`}
                       target="_blank"
                     >
                       {item}
+                      <FiExternalLink className="ml-2 mt-1" />
                     </a>
                   </li>
                 ))
