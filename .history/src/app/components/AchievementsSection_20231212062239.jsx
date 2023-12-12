@@ -22,7 +22,7 @@ const achievementsList = [
   },
   {
     metric: "Blockchain Testnets",
-    value: "5",
+    value: "1",
   },
   {
     metric: "Team members",

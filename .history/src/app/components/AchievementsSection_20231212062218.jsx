@@ -21,8 +21,8 @@ const achievementsList = [
     value: "11045",
   },
   {
-    metric: "Blockchain Testnets",
-    value: "5",
+    metric: "",
+    value: "1",
   },
   {
     metric: "Team members",

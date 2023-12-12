@@ -11,8 +11,8 @@ const AnimatedNumbers = dynamic(
 
 const achievementsList = [
   {
-    metric: "Burned NFTs",
-    value: "408",
+    metric: "",
+    value: "5",
     postfix: "+",
   },
   {
@@ -21,8 +21,8 @@ const achievementsList = [
     value: "11045",
   },
   {
-    metric: "Blockchain Testnets",
-    value: "5",
+    metric: "NFTs Burned",
+    value: "1",
   },
   {
     metric: "Team members",
