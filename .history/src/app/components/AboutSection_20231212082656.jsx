@@ -25,7 +25,6 @@ const TAB_DATA = [
         <li>Find 4 NFTs</li>
         <li>Go to EXIT</li>
         <li>Mint and Burn NFTs</li>
-        <li>Get Fenomen NFT</li>
        
       </ul>
     ),

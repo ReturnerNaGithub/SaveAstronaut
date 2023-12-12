@@ -24,8 +24,7 @@ const TAB_DATA = [
       <ul className="list-disc pl-2">
         <li>Find 4 NFTs</li>
         <li>Go to EXIT</li>
-        <li>Mint and Burn NFTs</li>
-        <li>Get Fenomen NFT</li>
+        <li>Min NFTs</li>
        
       </ul>
     ),
